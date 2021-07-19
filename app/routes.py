@@ -1,3 +1,4 @@
+from logging import error
 from flask import request, abort, jsonify
 from flask import current_app as app
 from .models import db, Customer
@@ -14,27 +15,27 @@ def resource_not_found(e):
 @app.route("/customers", methods=['GET'])
 def get_all_customers():
     if "city" not in request.args:
-        customers = Customer.query.all()
+        customers: list = Customer.query.all()
         if customers is None:
             abort(404, description="There are no customers to retrieve.")
         return respond(customers, 200)
     else:
-        city = request.args.get("city")
-        ascii_list = []
+        city: str = request.args.get("city")
+        ascii_list: list = []
 
         if not check_query_param_contains_quotes(city, ascii_list):
             abort(404, description=f"There are no customers living in {city}.")
 
         city = convert_ascii_with_quotes_to_string_with_no_quotes(ascii_list)
-        all_customers_in_given_city = Customer.query.filter_by(city=city).all()
+        all_customers_in_given_city: list = Customer.query.filter_by(city=city).all()
 
         if all_customers_in_given_city is None or len(all_customers_in_given_city) == 0:
             abort(404, description=f"There are no customers living in {city}.")
         return respond(all_customers_in_given_city, 200)
 
 @app.route("/customers/<int:customerId>", methods=['GET'])
-def get_customer_for_given_customerid(customerId):
-    customer = Customer.query.filter_by(customer_id=customerId).first()
+def get_customer_for_given_customerid(customerId: int):
+    customer:str = Customer.query.filter_by(customer_id=customerId).first()
 
     if customer is None:
         abort(404, description=f"Customer with id of {customerId} does not exist.")
