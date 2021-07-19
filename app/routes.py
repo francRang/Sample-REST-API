@@ -10,10 +10,20 @@ db.session.commit()
 
 @app.errorhandler(404)
 def resource_not_found(e):
+    """Generic error handler for errors not specified"""
     return jsonify(error=str(e)), 404
 
 @app.route("/customers", methods=['GET'])
 def get_all_customers():
+    """A function to retrieve all customers from the database based on a query parameter of city.
+    Defaults to all if no parameter.
+    ---
+    get:
+      description: Get all customers that match criteria,
+      responses:
+        200: Successfull, returns customer(s).
+        404: Not found, no costumers in the database.
+    """
     if "city" not in request.args:
         customers: list = Customer.query.all()
         if customers is None:
@@ -35,6 +45,14 @@ def get_all_customers():
 
 @app.route("/customers/<int:customerId>", methods=['GET'])
 def get_customer_for_given_customerid(customerId: int):
+    """A function to retrieve a customer from the database based on a path parameter of customerId.
+    ---
+    get:
+      description: Get all the one customer that matches criteria,
+      responses:
+        200: Successfull, returns customer(s).
+        404: Not found, no costumers in the database.
+    """
     customer:str = Customer.query.filter_by(customer_id=customerId).first()
 
     if customer is None:
@@ -44,6 +62,22 @@ def get_customer_for_given_customerid(customerId: int):
 
 @app.route("/customers", methods=['POST'])
 def add_a_customer():
+    """A function to a a customer to the database based on a JSON request body with the following customer data:
+    - First Name
+    - Last Name
+    - Email Address
+    - Address
+    - City
+    - State
+    - Zip
+    ---
+    post:
+      description: Post a costumer to the database, return added costumer with newly assigned id if successful.
+      responses:
+        200: Successfull, returns customer(s).
+        422: Invalid Input, missing parameters and/or incorrect type/type violation.
+        409: Duplicate value, email already in the database.
+    """
     customer_data = request.json
     if Customer.query.filter_by(email=customer_data["email"]).first() is None:
         try:

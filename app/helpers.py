@@ -8,7 +8,7 @@ def respond(data=None, code: int=200):
         return make_response(jsonify(data), code)
 
 def check_query_param_contains_quotes(city_string: str, ascii_values: list) -> bool:
-
+    """Check if passed input string contains quotes ("") or not"""
     for character in city_string:
         ascii_values.append(ord(character))
 
@@ -21,6 +21,7 @@ def check_query_param_contains_quotes(city_string: str, ascii_values: list) -> b
         return False
 
 def convert_ascii_with_quotes_to_string_with_no_quotes(ascii_list: list) -> str :
+    """Conver ascii list input that contains quotes ("") to a string without quotes"""
     ascii_list.pop()
     ascii_list.pop(0)
     string_value_with_no_quotes: str = ''.join(chr(ascii_value) for ascii_value in ascii_list)
