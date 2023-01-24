@@ -1,4 +1,4 @@
-# Backend-Software-Engineer-CC-HEB
+# Sample-REST-API
 
 Using Flask to build a Python HTTP REST API.
 
@@ -9,13 +9,13 @@ Integrations with Flask-SQLalchemy.
 Clone this repository:
 
 ```
-$ git clone git@github.com:fr4nkR/Backend-Software-Engineer-CC-HEB.git
+$ git clone git@github.com:francRang/Sample-REST-API.git
 ```
 
-From the directory from which this repo was cloned, go into the root directory for Backend-Software-Engineer-CC-HEB:
+From the directory from which this repo was cloned, go into the root directory for Sample-REST-API:
 
 ```
-$ cd Backend-Software-Engineer-CC-HEB
+$ cd Sample-REST-API
 ```
 
 Install with pip:
